@@ -28,7 +28,7 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 $app->get('/', function() use($app) {
     $livres = array();
     try {
-        $livres = $app['db']->fetchAll('select * from livres');
+        $livres = $app['db']->fetchAll('select * from livres group by isbn order by title');
     } catch (Exception $e) {
         $app->json(array('status' => $e), 500);
     }

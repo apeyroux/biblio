@@ -15,16 +15,22 @@
     </head>
     <body>
 	<div class="container">
-	    <h1>Livres</h1>
+	    <h1>Livres ({{livres|length}})</h1>
 
 	    <form id="form-isbn">
 		<input type="text" id="isbn" autocomplete="off">
 	    </form>
 
-	    <table class="table" id="result">
-		<tr>
-		    <th>Titre</th><th>Auteur</th><th>Publication</th><th>Année</th><th>ISBN</th>
-		</tr>
+	    <table class="table table-hover" id="result">
+		<thead>
+		    <tr>
+			<th>Titre</th>
+			<th>Auteur</th>
+			<th>Publication</th>
+			<th>Année</th>
+			<th>ISBN</th>
+		    </tr>
+		</thead>
 		{% for livre in livres %}
 		    <tr>
 			<td>{{livre.title}}</td>
