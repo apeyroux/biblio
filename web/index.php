@@ -26,6 +26,7 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
 )));
 
 $app->get('/', function() use($app) {
+    $livres = array();
     try {
         $livres = $app['db']->fetchAll('select * from livres');
     } catch (Exception $e) {
