@@ -1,0 +1,65 @@
+<html>
+    <head>
+	<script
+	    src="https://code.jquery.com/jquery-3.1.1.min.js"
+	    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+	    crossorigin="anonymous"></script>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </head>
+    <body>
+	<div class="container">
+	    <h1>Livres</h1>
+
+	    <form id="form-isbn">
+		<input type="text" id="isbn"> <!-- <input type="submit" text="Ajouter"> -->
+	    </form>
+
+	    <table class="table" id="result">
+		<tr>
+		    <th>Titre</th><th>Auteur</th><th>Publication</th><th>Année</th><th>ISBN</th>
+		</tr>
+	    </table>
+	</div>
+	<script>
+	  $( document ).ready(function() {
+	      $( "#form-isbn" ).submit(function( event ) {
+		  event.preventDefault();
+		  $isbn = $("#isbn").val();
+		  $("#isbn").val('');
+		  console.log($isbn);
+		  $.ajax({
+		      type: "GET",
+		      dataType: 'jsonp',
+		      url: 'http://xisbn.worldcat.org/webservices/xid/isbn/' + $isbn,
+		      data: {'bibkeys':'ISBN:' + $isbn
+			   , 'fl':'*'
+			   , 'format':'json'
+			   , 'method':'getMetadata'
+			   , 'callback':'process'}
+		  }).done(function(data) {
+		      if(data.stat == 'invalidId') {
+			  alert('Livre non trouvé');
+		      } else {
+			  console.log(data);
+			  console.log(data.list[0].author);
+			  console.log(data.list[0].publisher);
+			  console.log(data.list[0].year);
+			  $('#result > tbody:last-child').append('<tr><td>' + data.list[0].title
+							       + '<td>' + data.list[0].author + '</td>'
+							       + '<td>' + data.list[0].publisher + '</td>'
+			      				       + '<td>' + data.list[0].year + '</td>'
+							       + '<td>' + $isbn + '</td></tr>');
+		      }
+		  });
+	      });
+	  });
+	</script>
+    </body>
+</html>

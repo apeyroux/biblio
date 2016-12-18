@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  php:
+    image: php
+    command: php -S 0.0.0.0:80 -t /app/web
+    volumes:
+      - ./:/app
+    ports:
+      - 80:80

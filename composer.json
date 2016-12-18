@@ -1,0 +1,14 @@
+{
+    "name": "apeyroux/livres",
+    "require": {
+        "silex/silex": "^2.0",
+        "twig/twig": "^1.29",
+        "doctrine/dbal": "^2.5"
+    },
+    "authors": [
+        {
+            "name": "Alexandre Peyroux",
+            "email": "alex@px.io"
+        }
+    ]
+}
